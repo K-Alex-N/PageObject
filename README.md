@@ -11,7 +11,7 @@ https://www.youtube.com/watch?v=BRxp1Kn1G7w
 Files
 -----
 
-[conftest.py](conftest.py) contains all the required code to catch failed test cases and make screenshot
+[conftest.py](tests/conftest.py) contains all the required code to catch failed test cases and make screenshot
 of the page in case any test case will fail.
 
 [pages/base.py](pages/base.py) contains PageObject pattern implementation for Python.

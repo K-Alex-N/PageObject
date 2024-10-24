@@ -8,6 +8,7 @@ import pytest
 import allure
 import uuid
 
+from selenium import webdriver
 
 
 @pytest.fixture
@@ -32,37 +33,36 @@ def pytest_runtest_makereport(item, call):
 
 
 @pytest.fixture
-def web_browser(request, selenium):
-
-    browser = selenium
+def web_browser():
+    browser = webdriver.Chrome()
     browser.set_window_size(1400, 1000)
 
-    # Return browser instance to test case:
     yield browser
+    browser.quit()
 
-    # Do teardown (this code will be executed after each test):
-
-    if request.node.rep_call.failed:
-        # Make the screen-shot if test failed:
-        try:
-            browser.execute_script("document.body.bgColor = 'white';")
-
-            # Make screen-shot for local debug:
-            browser.save_screenshot('screenshots/' + str(uuid.uuid4()) + '.png')
-
-            # Attach screenshot to Allure report:
-            allure.attach(browser.get_screenshot_as_png(),
-                          name=request.function.__name__,
-                          attachment_type=allure.attachment_type.PNG)
-
-            # For happy debugging:
-            print('URL: ', browser.current_url)
-            print('Browser logs:')
-            for log in browser.get_log('browser'):
-                print(log)
-
-        except:
-            pass # just ignore any errors here
+    # # Do teardown (this code will be executed after each test):
+    #
+    # if request.node.rep_call.failed:
+    #     # Make the screen-shot if test failed:
+    #     try:
+    #         browser.execute_script("document.body.bgColor = 'white';")
+    #
+    #         # Make screen-shot for local debug:
+    #         browser.save_screenshot('screenshots/' + str(uuid.uuid4()) + '.png')
+    #
+    #         # Attach screenshot to Allure report:
+    #         allure.attach(browser.get_screenshot_as_png(),
+    #                       name=request.function.__name__,
+    #                       attachment_type=allure.attachment_type.PNG)
+    #
+    #         # For happy debugging:
+    #         print('URL: ', browser.current_url)
+    #         print('Browser logs:')
+    #         for log in browser.get_log('browser'):
+    #             print(log)
+    #
+    #     except:
+    #         pass # just ignore any errors here
 
 
 def get_test_case_docstring(item):

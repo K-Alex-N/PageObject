@@ -16,11 +16,9 @@ class WebElement(object):
     _web_driver = None
     _page = None
     _timeout = 10
-    _wait_after_click = False  # TODO: how we can wait after click?
 
-    def __init__(self, timeout=10, wait_after_click=False, **kwargs):
+    def __init__(self, timeout=10, **kwargs):
         self._timeout = timeout
-        self._wait_after_click = wait_after_click
 
         for attr in kwargs:
             self._locator = (str(attr).replace('_', ' '), str(kwargs.get(attr)))
